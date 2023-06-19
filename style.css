@@ -6,10 +6,18 @@
 
 body {
   color: white;
-  font-family: 'microsoft yahei', arial, -apple-system, BlinkMacSystemFont,
-    'segoe ui', roboto, oxygen, cantarell, 'helvetica neue', ubuntu, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background: #080823;
   scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Raleway', sans-serif;
 }
 
 .btn {
@@ -35,13 +43,19 @@ body {
   position: relative;
 }
 
+h1 {
+  font-size: 2.1rem;
+  margin-bottom: 20px;
+}
+
 h2 {
   font-size: 1.6rem;
   margin-bottom: 10px;
 }
 
 p {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
+  /* font-size: 26px; */
   margin-bottom: 10px;
 }
 
@@ -379,6 +393,10 @@ a {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.welcome {
+  padding-top: 18rem;
 }
 
 /* Modal */

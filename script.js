@@ -1,7 +1,5 @@
 const apiKey = '29916ed7';
-// http://www.omdbapi.com/?i=tt3896198&apikey=29916ed7
 const URL = `http://www.omdbapi.com/?i=tt3896198&apikey=29916ed7`;
-const imgURL = 'https://image.tmdb.org/t/p/w1280';
 const searchURL = `http://www.omdbapi.com/?apikey=29916ed7&s=`;
 const form = document.getElementById('search-form');
 const moreLoader = document.getElementById('loader');
@@ -16,11 +14,18 @@ let movies = [],
 async function fetchData(URL) {
   try {
     const data = await fetch(URL).then((res) => res.json());
-    // console.log(data, 'response');
+    console.log(data);
+
+    if (data?.Error) {
+      alert(data?.Error);
+      root.innerHTML = '';
+    }
+
     return data;
   } catch (error) {
     console.log(error.message, 'error');
-    root.innerHTML = '<h5>Something went wrong!</h5>';
+    alert('Something went wrong!');
+    root.innerHTML = '';
     moreLoader.classList.remove('lds-roller');
     return null;
   }
@@ -30,11 +35,10 @@ async function fetchData(URL) {
 async function fetchMovie(title) {
   try {
     const data = await fetch(URL + '&t=' + title).then((res) => res.json());
-    console.log(data, 'response');
     return data;
   } catch (error) {
-    console.log(error.message, 'error');
-    root.innerHTML = '<h5>Something went wrong!</h5>';
+    alert('Something went wrong!');
+    root.innerHTML = '';
     return null;
   }
 }
@@ -47,16 +51,15 @@ const fetchAndShowResults = async (URL) => {
   } else {
     movies = Search;
   }
-  console.log(movies);
   Search && showResults();
 };
 
 const getSpecificPage = (page) => {
   const URL = searchURL + prevQuery + `&page=${page}`;
-  // console.log(URL);
   fetchAndShowResults(URL);
 };
 
+// movie card structure
 const movieCard = ({ Poster, Title, Type, Year, imdbID }) =>
   `<div class="col">
           <div class="card">
@@ -113,10 +116,10 @@ const handleLoadMore = () => {
   getSpecificPage(++page);
 };
 
+//   Checking scroll height and the view height are the same to makes an api call.
 const detectEndAndLoadMore = (e) => {
   let el = document.documentElement;
-  //   Checking scroll height and the view height are the same to makes an api call.
-  // console.log(el.scrollTop);
+
   if (
     inSearchPage &&
     (parseFloat(el.scrollTop + el.clientHeight).toFixed(0) == el.scrollHeight
@@ -124,8 +127,6 @@ const detectEndAndLoadMore = (e) => {
       : Number(parseFloat(el.scrollTop + el.clientHeight).toFixed(0)) + 1 ==
         el.scrollHeight)
   ) {
-    // console.log('Bingo!');
-    // inSearchPage = false;
     moreLoader.classList.add('lds-roller');
     handleLoadMore();
   }
@@ -145,21 +146,14 @@ form.addEventListener('submit', async (e) => {
     searchTerm && fetchAndShowResults(searchURL + searchTerm);
     query.value = '';
   } else {
-    root.innerHTML = '<h2>Enter a movie title!</h2>';
+    alert('Enter a movie title!');
+    root.innerHTML = '';
   }
 });
 
 window.addEventListener('scroll', detectEndAndLoadMore);
 
-// function init() {
-//   inSearchPage = false;
-//   fetchAndShowResults(URL);
-// }
-
-// init();
-
 // Modal
-
 async function showModal(title) {
   let modal = document.getElementById('myModal');
   let bodyContainer = document.getElementById('body-container');
@@ -174,6 +168,7 @@ async function showModal(title) {
   span.onclick = function () {
     modal.style.display = 'none';
   };
+
   const data = await fetchMovie(title);
   if (data) {
     bodyContainer.innerHTML = modalContent(data);
@@ -190,7 +185,6 @@ async function showModal(title) {
 // individual movie
 
 // Modal Content
-
 const modalContent = (data) =>
   `<div class="modal-body">
   <div class="movie-details1">
