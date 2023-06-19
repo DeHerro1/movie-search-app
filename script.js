@@ -14,8 +14,6 @@ let movies = [],
 async function fetchData(URL) {
   try {
     const data = await fetch(URL).then((res) => res.json());
-    console.log(data);
-
     if (data?.Error) {
       alert(data?.Error);
       root.innerHTML = '';
@@ -23,7 +21,6 @@ async function fetchData(URL) {
 
     return data;
   } catch (error) {
-    console.log(error.message, 'error');
     alert('Something went wrong!');
     root.innerHTML = '';
     moreLoader.classList.remove('lds-roller');
